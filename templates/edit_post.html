@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+{% for message in get_flashed_messages() %}
+<div class="alert alert-warning alert-dismissible fade show" role="alert">
+	{{ message }}
+	<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+</div>
+{% endfor %}
+
+<br />
+<h2>Edit Post...</h2>
+<br />
+<div class="shadow p-3 mb-5 bg-body rounded">
+	<form method="POST">
+		{{ csrf_token }}
+
+		<div class="mb-3">
+			<label for="title" class="form-label">Title</label>
+			<input type="text" class="form-control" id="title" name="title" value="{{ post[1] }}">
+		</div>
+
+		<div class="mb-3">
+			<label for="slug" class="form-label">Slug</label>
+			<input type="text" class="form-control" id="slug" name="slug" value="{{ post[3] }}">
+		</div>
+
+		<div class="mb-3">
+			<label for="content" class="form-label">Content</label>
+			<textarea class="form-control" id="content" name="content" rows="10">{{ post[2] }}</textarea>
+		</div>
+
+		<button type="submit" class="btn btn-secondary">Submit</button>
+
+	</form>
+</div>
+
+<a href="{{ url_for('posts') }}" class="btn btn-outline-secondary btn-sm">Back To Blog</a>
+
+{% endblock %}

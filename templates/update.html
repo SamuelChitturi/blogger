@@ -1,0 +1,54 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+{% for message in get_flashed_messages() %}
+<div class="alert alert-warning alert-dismissible fade show" role="alert">
+	{{ message }}
+	<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+</div>
+{% endfor %}
+
+{% if name_to_update %}
+
+<h1>Update User...</h1>
+<br />
+<div class="shadow p-3 mb-5 bg-body rounded">
+	<form action="{{ url_for('update', id=id) }}" method="POST" enctype="multipart/form-data">
+		{{ csrf_token }}
+
+		<div class="mb-3">
+			<label for="name" class="form-label">Name:</label>
+			<input type="text" class="form-control" id="name" name="name" value="{{ name_to_update[1] }}">
+		</div>
+		<div class="mb-3">
+			<label for="username" class="form-label">Username:</label>
+			<input type="text" class="form-control" id="username" name="username" value="{{ name_to_update[2] }}">
+		</div>
+		<div class="mb-3">
+			<label for="email" class="form-label">Email:</label>
+			<input type="email" class="form-control" id="email" name="email" value="{{ name_to_update[3] }}">
+		</div>
+		<div class="mb-3">
+			<label for="favorite_color" class="form-label">Favorite Color:</label>
+			<input type="text" class="form-control" id="favorite_color" name="favorite_color"
+				value="{{ name_to_update[4] }}">
+		</div>
+		<div class="mb-3">
+			<label for="about_author" class="form-label">About Author:</label>
+			<textarea class="form-control" id="about_author" name="about_author">{{ name_to_update[5] }}</textarea>
+		</div>
+		<button type="submit" class="btn btn-secondary">Submit</button>
+		<a href="{{ url_for('delete', id=id) }}" class="btn btn-danger">Delete</a>
+	</form>
+</div>
+<br /><br /><br />
+
+{% else %}
+<div class="alert alert-warning alert-dismissible fade show" role="alert">
+	User Not Found!
+	<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+</div>
+{% endif %}
+
+{% endblock %}

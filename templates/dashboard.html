@@ -1,0 +1,99 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+{% for message in get_flashed_messages() %}
+<div class="alert alert-warning alert-dismissible fade show" role="alert">
+	{{ message }}
+	<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+</div>
+{% endfor %}
+
+<h2>Dashboard</h2>
+<br />
+
+<div class="card">
+	<div class="card-header">
+		Welcome {{ user[2]}}!
+	</div>
+	<div class="card-body">
+
+		<p class="card-text">
+		<div class="container">
+			<div class="row">
+				<div class="col-8">
+					<strong>Name:</strong> {{ user[2] }}<br />
+					<strong>Username:</strong> {{ user[1] }}<br />
+					<strong>User Id:</strong> {{ user[0] }}<br />
+					<strong>Email:</strong> {{ user[3] }}<br />
+					<strong>Favorite Color:</strong> {{ user[4] }}<br />
+					<strong>About Author:</strong> {{ user[5] }}<br />
+					<strong>Date Joined:</strong> {{ user[6] }}<br />
+				</div>
+				<div class="col-4">
+					{% if user[8] %}
+					<img src="{{ url_for('static', filename='images/' + user[8])}}" width="200" align="right">
+					{% else %}
+					<img src="{{ url_for('static', filename='images/default_profile_pic.png')}}" width="200"
+						align="right">
+					{% endif %}
+				</div>
+			</div>
+		</div>
+		</p>
+
+		<a href="{{ url_for('logout') }}" class="btn btn-secondary btn-sm">Logout</a>
+
+		<a href="{{ url_for('update', id=user[0]) }}" class="btn btn-secondary btn-sm">Update Profile</a>
+
+		<a href="{{ url_for('delete', id=user[0]) }}" class="btn btn-danger btn-sm">Delete</a>
+		<br /><br />
+
+	</div>
+</div>
+<br />
+
+<div class="card">
+	<div class="card-header">
+		Update Profile
+	</div>
+	<div class="card-body">
+		<form action="{{ url_for('dashboard') }}" method="POST" enctype="multipart/form-data">
+			{{ csrf_token }}
+
+			<div class="mb-3">
+				<label for="name" class="form-label">Name:</label>
+				<input type="text" name="name" class="form-control" value="{{ user[2] }}" required>
+			</div>
+
+			<div class="mb-3">
+				<label for="username" class="form-label">Username:</label>
+				<input type="text" name="username" class="form-control" value="{{ user[1] }}" required>
+			</div>
+
+			<div class="mb-3">
+				<label for="email" class="form-label">Email:</label>
+				<input type="email" name="email" class="form-control" value="{{ user[3] }}" required>
+			</div>
+
+			<div class="mb-3">
+				<label for="favorite_color" class="form-label">Favorite Color:</label>
+				<input type="text" name="favorite_color" class="form-control" value="{{ user[4] }}">
+			</div>
+
+			<div class="mb-3">
+				<label for="about_author" class="form-label">About Author:</label>
+				<textarea name="about_author" class="form-control">{{ user[5] }}</textarea>
+			</div>
+
+			<div class="mb-3">
+				<label for="profile_pic" class="form-label">Profile Pic:</label>
+				<input type="file" name="profile_pic" class="form-control">
+			</div>
+
+			<button type="submit" class="btn btn-secondary btn-sm">Update</button>
+		</form>
+	</div>
+</div>
+
+{% endblock %}

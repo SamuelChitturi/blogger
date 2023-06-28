@@ -1,0 +1,62 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+{% for message, category in get_flashed_messages(with_categories=true) %}
+<div class="alert alert-warning alert-dismissible fade show" role="alert">
+	{{ message }}
+	<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+</div>
+{% endfor %}
+
+<br />
+
+<div class="shadow p-3 mb-5 bg-body rounded">
+	<h2>{{ post[1] }}</h2>
+	<small>By: {{ user[2] }}<br />
+		{{ post[2] }}</small> <br /><br />
+
+	{{ post[3]|safe }}<br /><br />
+
+
+	<div class="card mb-3">
+		<div class="row no-gutters">
+			<div class="col-md-2">
+				{% if post[9] %}
+				<img src="{{ url_for('static', filename='images/' + post[9]) }}" width="150" align="left">
+				{% else %}
+				<img src="{{ url_for('static', filename='images/default_profile_pic.png') }}" width="150" align="left">
+				{% endif %}
+			</div>
+
+			<div class="col-md-10">
+				<div class="card-body">
+					<h5 class="card-title">
+						{{ post[11] }}
+					</h5>
+					<p class="card-text">
+						{% if user[5] %}
+						{{ user[5] }}
+						{% else %}
+						Author has no about profile yet...
+						{% endif %}
+
+					</p>
+				</div>
+			</div>
+		</div>
+	</div>
+
+</div>
+
+{% if post[5] == session['user_id'] %}
+
+<a href="{{ url_for('edit_post', id=post[0]) }}" class="btn btn-outline-secondary btn-sm">Edit Post</a>
+
+<a href="#" class="btn btn-outline-danger btn-sm">Delete Post</a>
+
+{% endif %}
+
+<a href="{{ url_for('posts') }}" class="btn btn-outline-secondary btn-sm">Back To Blog</a>
+
+{% endblock %}
